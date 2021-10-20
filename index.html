@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <title>tic tac toe</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <div id="landing">
+            tic tac toe length : 
+            <select name="select" id="len">
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="7">7</option>
+                <option value="9">9</option>
+            </select>
+            <button type="button" id="start">start</button>
+        </div>
+        <div id="game">
+            <h1>Player <label id="pturn">X</label> turn</h1>
+            <table id="table">
+            </table>
+            <button type="button" class="block" id="reset">RESET</button>
+        </div>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="js/index.js"></script>
+</html>
