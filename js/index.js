@@ -58,7 +58,7 @@ $("#table").on('click','.space', function() {
     check(bool)
     $("#pturn").html((!bool)? "X" : "O")
     turn++
-    if (turn == len*len){
+    if (turn == len*len && !win){
         alert("DRAW")
         $("#reset").show()
     }
