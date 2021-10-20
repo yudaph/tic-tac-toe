@@ -32,6 +32,7 @@ $("#start").click(function() {
 $("#reset").click(function() {
     $("#landing").show()
     $("#game").hide()
+    $("#reset").hide()
     win = false
     turn = 0
     x = []
@@ -57,6 +58,10 @@ $("#table").on('click','.space', function() {
     check(bool)
     $("#pturn").html((!bool)? "X" : "O")
     turn++
+    if (turn == len*len){
+        alert("DRAW")
+        $("#reset").show()
+    }
 })
 
 function add(bool, int) {
