@@ -4,16 +4,14 @@ var turn = 0
 var win = false
 
 var x = []
-var xv = []
 var o = []
-var ov = []
+var board = []
 
 $("#start").click(function() {
     len = $("#len").val()
     let table;
     for(var i = 0; i<len*len; i++){
-        xv[i]=false
-        ov[i]=false
+        board[i] = "e"
     }
     var index = 0
     for(var i = 0; i<len; i++){
@@ -36,9 +34,8 @@ $("#reset").click(function() {
     win = false
     turn = 0
     x = []
-    xv = []
     o = []
-    ov = []
+    board = []
 })
 
 $("#table").on('click','.space', function() {
@@ -47,7 +44,7 @@ $("#table").on('click','.space', function() {
         alert("please reset the game")
         return
     }
-    if (xv[index] || ov[index]){
+    if (board[index]!="e"){
         alert("grid already taken, please choice another place")
         return
     }
@@ -55,7 +52,7 @@ $("#table").on('click','.space', function() {
     const html = (bool)? "X" : "O"
     $(this).html(html)
     add(bool, index)
-    check(bool)
+    check(bool, html)
     $("#pturn").html((!bool)? "X" : "O")
     turn++
     if (turn == len*len && !win){
@@ -65,40 +62,38 @@ $("#table").on('click','.space', function() {
 })
 
 function add(bool, int) {
+    board[int] = bool? "X" : "O"
     if(bool){
         x.push(int)
-        xv[int] = true
         return
     }
     o.push(int)
-    ov[int]=true
 }
 
-function check(bool) {
+function check(bool, mark) {
     var player = (bool)? x : o
-    var playerValue = (bool)? xv : ov
     if (player.length >=len) {
         for(var i = 0; i<player.length; i++){
             if (player[i]%len==0){
-                if (checkHorizontal(player[i], playerValue)){
+                if (checkHorizontal(player[i], mark)){
                         win = true
                         break
                 }
             }
             if (player[i]<len){
-                if(checkVertical(player[i], playerValue)){
+                if(checkVertical(player[i], mark)){
                         win = true
                         break
                 }
             }
             if(player[i]==0){
-                if(checkCross(player[i], playerValue)){
+                if(checkCross(player[i], mark)){
                         win = true
                         break
                 }
             }
             if(player[i]==len-1){
-                if(checkCross2(player[i], playerValue)){
+                if(checkCross2(player[i], mark)){
                         win = true
                         break
                 }
@@ -106,15 +101,15 @@ function check(bool) {
         }
     }
     if (win) {
-        alert(`Player ${(bool)? "X" : "O"} Win`)
+        alert(`Player ${mark} Win`)
         $("#reset").show()
     }
 }
 
-function checkHorizontal(int = -1, array = []){
+function checkHorizontal(int = -1, mark = ""){
     var success = true
     for(let i = 1; i<len; i++){
-        if (!array[int+i]) {
+        if (board[int+i] != mark) {
             success = false
             break
         }
@@ -122,10 +117,10 @@ function checkHorizontal(int = -1, array = []){
     return success
 }
 
-function checkVertical(int = -1, array = []){
+function checkVertical(int = -1, mark = ""){
     var success = true
     for(let i = 1; i<len; i++){
-        if (!array[int+(i*len)]){
+        if (board[int+(i*len)] != mark){
             success = false
             break
         }
@@ -133,10 +128,10 @@ function checkVertical(int = -1, array = []){
     return success
 }
 
-function checkCross(int = -1, array = []){
+function checkCross(int = -1, mark = ""){
     var success = true
     for(let i = 1; i<len; i++){
-        if(!array[int+(i*len)+i]){
+        if(board[int+(i*len)+i] != mark){
             success = false
             break
         }
@@ -144,10 +139,10 @@ function checkCross(int = -1, array = []){
     return success
 }
 
-function checkCross2(int = -1, array = []){
+function checkCross2(int = -1, mark = ""){
     var success = true
     for(let i = 1; i<len; i++){
-        if(!array[int+(i*len)-i]){
+        if(board[int+(i*len)-i] != mark){
             success = false
             break
         }
